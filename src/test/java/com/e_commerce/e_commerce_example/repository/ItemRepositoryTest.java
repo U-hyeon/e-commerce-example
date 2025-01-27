@@ -3,11 +3,18 @@ package com.e_commerce.e_commerce_example.repository;
 
 import com.e_commerce.e_commerce_example.constant.ItemSellStatus;
 import com.e_commerce.e_commerce_example.entity.Item;
+import com.e_commerce.e_commerce_example.entity.QItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.e_commerce.e_commerce_example.entity.Item;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +22,9 @@ import java.util.List;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-test.properties")
 class ItemRepositoryTest {
+
+    @PersistenceContext
+    EntityManager em;
 
     @Autowired
     ItemRepository itemRepository;
@@ -88,4 +98,41 @@ class ItemRepositoryTest {
         }
     }
 
+    @Test
+    @DisplayName("@Query를 이용한 상품 조회 테스트")
+    public void findByItemDetailTest() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
+
+    @Test
+    @DisplayName("nativeQuery 속성을 이용한 상품 조회 테스트")
+    public void findByItemDetailByNative() {
+        this.createItemList();
+        List<Item> itemList = itemRepository.findByItemDetailByNative("테스트 상품 상세 설명");
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
+
+    @Test
+    @DisplayName("Querydsl 조회 테스트1")
+    public void queryDslTest() {
+        this.createItemList();
+        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+        QItem qItem = QItem.item;
+        JPAQuery<Item> query = queryFactory.selectFrom(qItem)
+                .where(qItem.itemSellStatus.eq(ItemSellStatus.SELL))
+                .where(qItem.itemDetail.like("%" + "테스트 상품 상세 설명" + "%"))
+                .orderBy(qItem.price.desc());
+
+        List<Item> itemList = query.fetch();
+
+        for(Item item : itemList) {
+            System.out.println(item.toString());
+        }
+    }
 }
