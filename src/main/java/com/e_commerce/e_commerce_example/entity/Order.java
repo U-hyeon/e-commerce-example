@@ -28,7 +28,10 @@ public class Order {
     /**
      * 해당 상품이 속한 주문-상품 엔티티
      */
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order"
+            , cascade = CascadeType.ALL
+            , orphanRemoval = true
+    )
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime regTime;
