@@ -12,7 +12,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO) // 자동생성
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER) // default FetchType = EAGER
+    @OneToOne(fetch = FetchType.LAZY) // default FetchType = EAGER
     @JoinColumn(name = "member_id")
     private Member member;
 
