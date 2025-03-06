@@ -3,15 +3,13 @@ package com.e_commerce.e_commerce_example.entity;
 import com.e_commerce.e_commerce_example.constant.Role;
 import com.e_commerce.e_commerce_example.dto.MemberFormDto;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name="member")
 @ToString
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @Column(name="member_id")
     @GeneratedValue(strategy = GenerationType.AUTO)

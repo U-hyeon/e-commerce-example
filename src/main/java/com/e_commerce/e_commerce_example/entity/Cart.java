@@ -6,7 +6,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "cart")
 @ToString
-public class Cart {
+public class Cart extends BaseEntity {
     @Id
     @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.AUTO) // 자동생성

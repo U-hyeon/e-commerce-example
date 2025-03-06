@@ -2,10 +2,8 @@ package com.e_commerce.e_commerce_example.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-public class OrderItem {
+public class OrderItem extends BaseEntity {
     @Id
     @Column(name = "order_item_id")
     @GeneratedValue
@@ -28,10 +26,6 @@ public class OrderItem {
      * 수량
      */
     private int amount;
-
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
 
     public Long getId() {
         return id;
@@ -71,21 +65,5 @@ public class OrderItem {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public LocalDateTime getRegTime() {
-        return regTime;
-    }
-
-    public void setRegTime(LocalDateTime regTime) {
-        this.regTime = regTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
     }
 }
