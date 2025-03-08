@@ -18,7 +18,7 @@ public class Item extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, length = 50)
-    private String itemNm;
+    private String itemName;
 
     @Column(nullable = false, name="price")
     private int price;
@@ -41,12 +41,12 @@ public class Item extends BaseEntity {
         this.id = id;
     }
 
-    public String getItemNm() {
-        return itemNm;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItemNm(String itemNm) {
-        this.itemNm = itemNm;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public int getPrice() {

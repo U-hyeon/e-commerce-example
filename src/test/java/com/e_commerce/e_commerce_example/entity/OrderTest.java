@@ -40,7 +40,7 @@ class OrderTest {
 
     public Item createItem() {
         Item item = new Item();
-        item.setItemNm("test item");
+        item.setItemName("test item");
         item.setPrice(10000);
         item.setItemDetail("test item detail");
         item.setItemSellStatus(ItemSellStatus.SELL);

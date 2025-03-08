@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ItemDto {
     private long id;
-    private String itemNm;
+    private String itemName;
     private Integer price;
     private String itemDetail;
     private String sellStatCd;
@@ -24,12 +24,12 @@ public class ItemDto {
         this.id = id;
     }
 
-    public String getItemNm() {
-        return itemNm;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItemNm(String itemNm) {
-        this.itemNm = itemNm;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public Integer getPrice() {

@@ -16,7 +16,7 @@ public class ItemImg extends BaseEntity {
 
     private String imgUrl; // 이미지 경로
 
-    private String representImgUrl; // 대표이미지 여부
+    private String representImgFlag; // 대표이미지 여부
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="item_id")
@@ -60,12 +60,12 @@ public class ItemImg extends BaseEntity {
         this.imgUrl = imgUrl;
     }
 
-    public String getRepresentImgUrl() {
-        return representImgUrl;
+    public String getRepresentImgFlag() {
+        return representImgFlag;
     }
 
-    public void setRepresentImgUrl(String representImgUrl) {
-        this.representImgUrl = representImgUrl;
+    public void setRepresentImgFlag(String representImgFlag) {
+        this.representImgFlag = representImgFlag;
     }
 
     public Item getItem() {
