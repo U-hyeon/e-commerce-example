@@ -1,6 +1,7 @@
 package com.e_commerce.e_commerce_example.entity;
 
 import com.e_commerce.e_commerce_example.constant.ItemSellStatus;
+import com.e_commerce.e_commerce_example.dto.ItemFormDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,5 +80,13 @@ public class Item extends BaseEntity {
 
     public void setItemSellStatus(ItemSellStatus itemSellStatus) {
         this.itemSellStatus = itemSellStatus;
+    }
+
+    public void updateItem(ItemFormDto itemFormDto) {
+        this.itemName = itemFormDto.getItemName();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 }
