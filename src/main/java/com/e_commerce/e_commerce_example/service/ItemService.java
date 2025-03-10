@@ -2,12 +2,15 @@ package com.e_commerce.e_commerce_example.service;
 
 import com.e_commerce.e_commerce_example.dto.ItemFormDto;
 import com.e_commerce.e_commerce_example.dto.ItemImgDto;
+import com.e_commerce.e_commerce_example.dto.ItemSearchDto;
 import com.e_commerce.e_commerce_example.entity.Item;
 import com.e_commerce.e_commerce_example.entity.ItemImg;
 import com.e_commerce.e_commerce_example.repository.ItemImgRepository;
 import com.e_commerce.e_commerce_example.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,5 +84,10 @@ public class ItemService {
         }
 
         return item.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 }
