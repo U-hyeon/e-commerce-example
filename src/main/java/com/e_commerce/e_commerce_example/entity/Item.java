@@ -2,6 +2,7 @@ package com.e_commerce.e_commerce_example.entity;
 
 import com.e_commerce.e_commerce_example.constant.ItemSellStatus;
 import com.e_commerce.e_commerce_example.dto.ItemFormDto;
+import com.e_commerce.e_commerce_example.exception.OutOfStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -88,5 +89,15 @@ public class Item extends BaseEntity {
         this.stockNumber = itemFormDto.getStockNumber();
         this.itemDetail = itemFormDto.getItemDetail();
         this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+    /**
+     * 재고수량 제거. 수량 부족시 exception
+     */
+    public void removeStock(int stockNumber) {
+        int restStock = this.stockNumber - stockNumber;
+        if (restStock < 0) {
+            throw new OutOfStockException("상품의 재고가 부족합니다.(현재 재고 수량: " + this.stockNumber);
+        }
     }
 }

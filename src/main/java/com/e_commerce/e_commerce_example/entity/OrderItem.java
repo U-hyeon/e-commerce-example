@@ -66,4 +66,18 @@ public class OrderItem extends BaseEntity {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public static OrderItem createOrderItem(Item item, int amount) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setAmount(amount);
+        orderItem.setOrderPrice(item.getPrice());
+
+        item.removeStock(amount);
+        return orderItem;
+    }
+
+    public int getTotalPrice() {
+        return orderPrice * amount;
+    }
 }
