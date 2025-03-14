@@ -1,19 +1,23 @@
 package com.e_commerce.e_commerce_example.controller;
 
 import com.e_commerce.e_commerce_example.dto.OrderDto;
+import com.e_commerce.e_commerce_example.dto.OrderHistoryDto;
 import com.e_commerce.e_commerce_example.service.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -44,5 +48,17 @@ public class OrderController {
         }
 
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"/orders", "/orders/{page}"})
+    public String orderHistory(@PathVariable("page")Optional<Integer> page, Principal principal, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
+
+        Page<OrderHistoryDto> orderHistoryDtoList = orderService.getOrderList(principal.getName(), pageable);
+
+        model.addAttribute("orders", orderHistoryDtoList);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+        return "order/orderHistory";
     }
 }
