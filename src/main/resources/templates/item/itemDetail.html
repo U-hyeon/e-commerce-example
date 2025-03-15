@@ -15,15 +15,15 @@
 
             calculateToalPrice();
 
-            $("#count").change( function(){
+            $("#amount").change( function(){
                 calculateToalPrice();
             });
         });
 
         function calculateToalPrice(){
-            var count = $("#count").val();
+            var amount = $("#amount").val();
             var price = $("#price").val();
-            var totalPrice = price*count;
+            var totalPrice = price*amount;
             $("#totalPrice").html(totalPrice + '원');
         }
 
@@ -34,7 +34,7 @@
             var url = "/order";
             var paramData = {
                 itemId : $("#itemId").val(),
-                count : $("#count").val()
+                amount : $("#amount").val()
             };
 
             var param = JSON.stringify(paramData);
@@ -74,7 +74,7 @@
             var url = "/cart";
             var paramData = {
                 itemId : $("#itemId").val(),
-                count : $("#count").val()
+                amount : $("#amount").val()
             };
 
             var param = JSON.stringify(paramData);
@@ -165,7 +165,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">수량</span>
                     </div>
-                    <input type="number" name="count" id="count" class="form-control" value="1" min="1">
+                    <input type="number" name="amount" id="amount" class="form-control" value="1" min="1">
                 </div>
             </div>
             <hr class="my-4">
