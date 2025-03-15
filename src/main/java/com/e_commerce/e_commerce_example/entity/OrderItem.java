@@ -80,4 +80,8 @@ public class OrderItem extends BaseEntity {
     public int getTotalPrice() {
         return orderPrice * amount;
     }
+
+    public void cancel() {
+        this.getItem().addStock(amount);
+    }
 }

@@ -21,7 +21,7 @@ public class CartItem extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    private int count;
+    private int amount;
 
     public Long getId() {
         return id;
@@ -47,11 +47,11 @@ public class CartItem extends BaseEntity {
         this.item = item;
     }
 
-    public int getCount() {
-        return count;
+    public int getamount() {
+        return amount;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setamount(int amount) {
+        this.amount = amount;
     }
 }
