@@ -47,11 +47,23 @@ public class CartItem extends BaseEntity {
         this.item = item;
     }
 
-    public int getamount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setamount(int amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public static CartItem createCartItem(Cart cart, Item item, int amount) {
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setAmount(amount);
+        return cartItem;
+    }
+
+    public void addAmount(int amount) {
+        this.amount += amount;
     }
 }
