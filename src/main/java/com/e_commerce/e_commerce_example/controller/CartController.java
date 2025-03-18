@@ -2,6 +2,7 @@ package com.e_commerce.e_commerce_example.controller;
 
 import com.e_commerce.e_commerce_example.dto.CartDetailDto;
 import com.e_commerce.e_commerce_example.dto.CartItemDto;
+import com.e_commerce.e_commerce_example.dto.CartOrderDto;
 import com.e_commerce.e_commerce_example.entity.Cart;
 import com.e_commerce.e_commerce_example.service.CartService;
 import jakarta.validation.Valid;
@@ -81,5 +82,25 @@ public class CartController {
 
         cartService.deleteCartItem(cartItemId);
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+    }
+
+    @PostMapping("/cart/orders")
+    public @ResponseBody ResponseEntity orderCartItem(
+            @RequestBody CartOrderDto cartOrderDto, Principal principal) {
+        List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+
+        if(cartOrderDtoList == null || cartOrderDtoList.isEmpty()) {
+            return new ResponseEntity<String>("주문할 상품을 선택해주세요", HttpStatus.FORBIDDEN);
+        }
+
+        for (CartOrderDto cartOrder : cartOrderDtoList) {
+            if (!cartService.validateCartItem(cartOrder.getCartItemId(), principal.getName())) {
+                return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            }
+        }
+
+        Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
+
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 }

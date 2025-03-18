@@ -2,6 +2,8 @@ package com.e_commerce.e_commerce_example.service;
 
 import com.e_commerce.e_commerce_example.dto.CartDetailDto;
 import com.e_commerce.e_commerce_example.dto.CartItemDto;
+import com.e_commerce.e_commerce_example.dto.CartOrderDto;
+import com.e_commerce.e_commerce_example.dto.OrderDto;
 import com.e_commerce.e_commerce_example.entity.Cart;
 import com.e_commerce.e_commerce_example.entity.CartItem;
 import com.e_commerce.e_commerce_example.entity.Item;
@@ -25,13 +27,15 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderService orderService;
 
     public CartService(ItemRepository itemRepository, MemberRepository memberRepository
-            , CartRepository cartRepository, CartItemRepository cartItemRepository) {
+            , CartRepository cartRepository, CartItemRepository cartItemRepository, OrderService orderService) {
         this.itemRepository = itemRepository;
         this.memberRepository = memberRepository;
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
+        this.orderService = orderService;
     }
 
     public Long addCart(CartItemDto cartItemDto, String email) {
@@ -99,5 +103,30 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
         cartItemRepository.delete(cartItem);
+    }
+
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email) {
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository
+                    .findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setAmount(cartItem.getAmount());
+            orderDtoList.add(orderDto);
+        }
+
+        Long orderId = orderService.orders(orderDtoList, email);
+
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository
+                    .findById(cartOrderDto.getCartItemId())
+                    .orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+
+        return orderId;
     }
 }
